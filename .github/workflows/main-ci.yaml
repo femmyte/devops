@@ -15,7 +15,7 @@ jobs:
     run-devsecops:
         needs: checkout-and-prep
         if: always()
-        uses: ./.github/workflows/devsecops.yaml
+        uses: ./.github/workflows/devsecops.yml
         permissions:
             contents: read
             packages: write
@@ -23,7 +23,7 @@ jobs:
     build-and-deploy:
         needs: run-devsecops
         if: always()
-        uses: ./.github/workflows/frontend-ci.yaml
+        uses: ./.github/workflows/frontend-ci.yml
         permissions:
             contents: read
             packages: write
