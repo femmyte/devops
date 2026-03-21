@@ -3,7 +3,7 @@ on:
 name: Frontend CI
 env:
     DOCKER_REPO: femmyte
-    MAGE_NAME: linker-backend
+    IMAGE_NAME: linker-backend
     NEXT_PUBLIC_API_URL: "http://localhost:3001"
 
 jobs:
@@ -51,7 +51,7 @@ jobs:
 
             - name: Generate Docker Image Tag
               id: tag
-              uses: docker/metadata-actions@v5
+              uses: docker/metadata-action@v5
               with:
                   images: docker.io/${{env.DOCKER_REPO}}/${{env.IMAGE_NAME}}
                   tags: |
@@ -60,7 +60,7 @@ jobs:
             - name: Build Docker Image
               uses: docker/build-push-action@v7
               with:
-                  context: .
+                  context: ./linker-frontend
                   load: true
                   tags: ${{steps.tag.outputs.tags}}
                   build-args: |
@@ -91,7 +91,7 @@ jobs:
             - name: Push Image to Dcker Hub
               uses: docker/build-push-actions@v7
               with:
-                  context: .
+                  context: ./linker-frontend
                   push: true
                   tags: ${{ steps.tag.outputs.tags }}
 

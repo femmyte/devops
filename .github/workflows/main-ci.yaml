@@ -15,6 +15,7 @@ jobs:
     run-devsecops:
         needs: checkout-and-prep
         if: always()
+        secrets: inherit
         uses: ./.github/workflows/devsecops.yml
         permissions:
             contents: read
@@ -22,6 +23,7 @@ jobs:
 
     build-and-deploy:
         needs: run-devsecops
+        secrets: inherit
         if: always()
         uses: ./.github/workflows/frontend-ci.yml
         permissions:
