@@ -25,6 +25,9 @@ jobs:
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./linker-frontend"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -44,6 +47,9 @@ jobs:
   scan:
     name: Software Composition Analysis
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./linker-frontend"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -72,6 +78,9 @@ jobs:
   semgrep:
     name: semgrep/ci
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./linker-frontend"
     permissions:
       contents: read
     env:
