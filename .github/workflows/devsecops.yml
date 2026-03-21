@@ -3,25 +3,25 @@ on:
   workflow_call:
 name: Devsecops
 jobs:
-  notify:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send Slack Notification on Push/PR
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: github-notifications
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: |
-            **Event**: https://github.com/${{ github.actor }} just made ${{ github.event_name }}!
+  # notify:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Send Slack Notification on Push/PR
+  #       uses: rtCamp/action-slack-notify@v2
+  #       env:
+  #         SLACK_CHANNEL: github-notifications
+  #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  #         SLACK_MESSAGE: |
+  #           **Event**: https://github.com/${{ github.actor }} just made ${{ github.event_name }}!
 
-            **Repository**: ${{ github.event.pull_request.html_url }}
+  #           **Repository**: ${{ github.event.pull_request.html_url }}
 
-            **GitHub Branch**: ${{ github.ref_name }}
+  #           **GitHub Branch**: ${{ github.ref_name }}
 
-            **Commit Message**: ${{ github.event.pull_request.title }}
-          SLACK_TITLE: DevSecOps Advertiser Dashboard Pipeline
-          MSG_MINIMAL: true
-          SLACKIFY_MARKDOWN: true
+  #           **Commit Message**: ${{ github.event.pull_request.title }}
+  #         SLACK_TITLE: DevSecOps Advertiser Dashboard Pipeline
+  #         MSG_MINIMAL: true
+  #         SLACKIFY_MARKDOWN: true
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
@@ -41,9 +41,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: ./linker-frontend
 
       - name: Run ESLint
         run: npm run lint
+        working-directory: ./linker-frontend
 
   scan:
     name: Software Composition Analysis
@@ -64,9 +66,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: ./linker-frontend
 
       - name: Run npm audit
         run: npm audit --json | tee npm-audit-report.json | jq -e 'select(.metadata.vulnerabilities.critical == 0 and .metadata.vulnerabilities.high == 0 and .metadata.vulnerabilities.moderate == 0)' > /dev/null
+        working-directory: ./linker-frontend
 
       - name: Upload SCA Reports
         uses: actions/upload-artifact@v4
@@ -99,29 +103,29 @@ jobs:
           name: semgrep-report
           path: semgrep-results.json
 
-      - name: Slack Notification
-        if: ${{ failure() }}
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE_ON_FAILURE: "DevSecOps Pipeline failed!"
+      # - name: Slack Notification
+      #   if: ${{ failure() }}
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      #     SLACK_COLOR: ${{ job.status }}
+      #     SLACK_MESSAGE_ON_FAILURE: "DevSecOps Pipeline failed!"
 
-      - name: Slack Notification
-        if: ${{ success() }}
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE_ON_SUCCESS: "DevSecOps Pipeline was successful!"
+      # - name: Slack Notification
+      #   if: ${{ success() }}
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      #     SLACK_COLOR: ${{ job.status }}
+      #     SLACK_MESSAGE_ON_SUCCESS: "DevSecOps Pipeline was successful!"
 
-      - name: Slack Notification with Artifact Link
-        if: always()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE_ON_SUCCESS: "Get DevSecOps Reports here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          SLACK_MESSAGE_ON_FAILURE: "Get DevSecOps Reports here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          SLACK_MSG_AUTHOR: ${{ github.actor }}
-          MSG_MINIMAL: true
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      # - name: Slack Notification with Artifact Link
+      #   if: always()
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_COLOR: ${{ job.status }}
+      #     SLACK_MESSAGE_ON_SUCCESS: "Get DevSecOps Reports here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      #     SLACK_MESSAGE_ON_FAILURE: "Get DevSecOps Reports here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      #     SLACK_MSG_AUTHOR: ${{ github.actor }}
+      #     MSG_MINIMAL: true
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

@@ -7,22 +7,22 @@ env:
     NEXT_PUBLIC_API_URL: "http://localhost:3001"
 
 jobs:
-    slack-notify:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Slack Notification
-              uses: rtCamp/action-slack-notify@v2
-              env:
-                  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-                  SLACK_TITLE: Docker Build Pipeline Triggered
-                  SLACK_MESSAGE: |
-                      **Event:** ${{ github.event_name }}
+    # slack-notify:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Slack Notification
+    #           uses: rtCamp/action-slack-notify@v2
+    #           env:
+    #               SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    #               SLACK_TITLE: Docker Build Pipeline Triggered
+    #               SLACK_MESSAGE: |
+    #                   **Event:** ${{ github.event_name }}
 
-                      **Actor:** ${{ github.actor }}
+    #                   **Actor:** ${{ github.actor }}
 
-                      **Branch:** ${{ github.ref_name }}
+    #                   **Branch:** ${{ github.ref_name }}
 
-                      **Commit:** ${{ github.event.head_commit.message }}
+    #                   **Commit:** ${{ github.event.head_commit.message }}
 
     build:
         runs-on: ubuntu-latest
@@ -95,18 +95,18 @@ jobs:
                   push: true
                   tags: ${{ steps.tag.outputs.tags }}
 
-            - name: Slack Notification
-              if: always()
-              uses: rtCamp/action-slack-notify@v2
-              env:
-                  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-                  SLACK_COLOR: ${{ job.status }}
-                  SLACK_TITLE: Docker Build Pipeline Triggered
-                  SLACK_MESSAGE: |
-                      Docker pipeline *${{ job.status }}*
-                      **Actor:** ${{ github.actor }}
+            # - name: Slack Notification
+            #   if: always()
+            #   uses: rtCamp/action-slack-notify@v2
+            #   env:
+            #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            #       SLACK_COLOR: ${{ job.status }}
+            #       SLACK_TITLE: Docker Build Pipeline Triggered
+            #       SLACK_MESSAGE: |
+            #           Docker pipeline *${{ job.status }}*
+            #           **Actor:** ${{ github.actor }}
 
-                      **Branch:** ${{ github.ref_name }}
+            #           **Branch:** ${{ github.ref_name }}
 
-                      **Commit:** ${{ github.event.head_commit.message }}
-                      logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            #           **Commit:** ${{ github.event.head_commit.message }}
+            #           logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
