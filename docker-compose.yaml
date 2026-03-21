@@ -8,14 +8,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
 
-<<<<<<< HEAD
     # volumes:
     #   - pgdata:/var/lib/postgresql/data
-=======
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-
->>>>>>> be2fbf7 (update the files)
     ports:
       - "5433:5432"
 
@@ -27,11 +21,7 @@ services:
 
   backend:
     build:
-<<<<<<< HEAD
       context: ./devops-bootcamp-linker-backend
-=======
-      context: ./linker-backend
->>>>>>> be2fbf7 (update the files)
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
@@ -47,11 +37,7 @@ services:
 
   frontend:
     build:
-<<<<<<< HEAD
       context: devops-bootcamp-linker-frontend
-=======
-      context: linker-frontend
->>>>>>> be2fbf7 (update the files)
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -63,18 +49,9 @@ services:
     networks:
       - app-network
 
-<<<<<<< HEAD
 networks:
   app-network:
     driver: bridge
 
 # volumes:
 #   pgdata: # dd
-=======
-volumes:
-  pg_data:
-
-networks:
-  app-network:
-    driver: bridge
->>>>>>> be2fbf7 (update the files)
