@@ -43,8 +43,10 @@ jobs:
           pwd
           ls -la
 
-      - name: Run ESLint
-        run: npm run lint
+      - name: Lint frontend
+        working-directory: ${{ github.workspace }}
+        run: |
+          npm run lint
 
   scan:
     name: Software Composition Analysis
