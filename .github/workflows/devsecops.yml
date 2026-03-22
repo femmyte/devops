@@ -25,9 +25,6 @@ jobs:
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -42,14 +39,11 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npm run lint
+        run: npm run lint -- .
 
   scan:
     name: Software Composition Analysis
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -79,9 +73,6 @@ jobs:
   semgrep:
     name: semgrep/ci
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     permissions:
       contents: read
     env:

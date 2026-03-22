@@ -62,7 +62,7 @@ jobs:
               with:
                   context: .
                   load: true
-                  tags: ${{steps.tag.outputs.tags}}
+                  tags: ${{ steps.tag.outputs.tags }}
                   build-args: |
                       NEXT_PUBLIC_API_URL=${{env.NEXT_PUBLIC_API_URL}}
 
@@ -75,8 +75,8 @@ jobs:
               run: |
                   trivy image \
                   --format table \
-                  --exit-code: 1 \
-                  --ignore-unfixed: \
+                  --exit-code 1 \
+                  --ignore-unfixed \
                   --severity CRITICAL,HIGH \
                   "${{ steps.tag.outputs.tags }}" \
                   | tee trivy-report.txt
