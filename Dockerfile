@@ -28,4 +28,7 @@ COPY --from=build /app/.next/static ./.next/static
 EXPOSE 3000
 ENV PORT=3000
 
+RUN useradd -m myuser
+USER myuser
+
 CMD [ "node", "server.js"]
