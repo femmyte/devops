@@ -39,7 +39,7 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npx eslint .
+        run: npm run lint -- "$GITHUB_WORKSPACE"
 
   scan:
     name: Software Composition Analysis
