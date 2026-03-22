@@ -31,7 +31,7 @@ jobs:
             packages: write
         defaults:
             run:
-                working-directory: "./linker-frontend"
+                working-directory: .
 
         steps:
             - name: Checkout
@@ -60,7 +60,7 @@ jobs:
             - name: Build Docker Image
               uses: docker/build-push-action@v7
               with:
-                  context: ./linker-frontend
+                  context: .
                   load: true
                   tags: ${{steps.tag.outputs.tags}}
                   build-args: |
@@ -91,7 +91,7 @@ jobs:
             - name: Push Image to Dcker Hub
               uses: docker/build-push-action@v7
               with:
-                  context: ./linker-frontend
+                  context: .
                   push: true
                   tags: ${{ steps.tag.outputs.tags }}
 

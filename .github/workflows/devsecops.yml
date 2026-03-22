@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "./linker-frontend"
+        working-directory: .
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,22 +37,19 @@ jobs:
         with:
           node-version: 20
           cache: "npm"
-          cache-dependency-path: "./linker-frontend/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./linker-frontend
 
       - name: Run ESLint
         run: npm run lint
-        working-directory: ./linker-frontend
 
   scan:
     name: Software Composition Analysis
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "./linker-frontend"
+        working-directory: .
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -62,15 +59,13 @@ jobs:
         with:
           node-version: "20.x"
           cache: "npm"
-          cache-dependency-path: "./linker-frontend/package-lock.json"
+          # cache-dependency-path: "./linker-frontend/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./linker-frontend
 
       - name: Run npm audit
         run: npm audit --json | tee npm-audit-report.json | jq -e 'select(.metadata.vulnerabilities.critical == 0 and .metadata.vulnerabilities.high == 0 and .metadata.vulnerabilities.moderate == 0)' > /dev/null
-        working-directory: ./linker-frontend
 
       - name: Upload SCA Reports
         uses: actions/upload-artifact@v4
@@ -86,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "./linker-frontend"
+        working-directory: .
     permissions:
       contents: read
     env:
