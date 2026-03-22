@@ -38,6 +38,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug path
+        run: |
+          pwd
+          ls -la
+
       - name: Run ESLint
         run: npm run lint -- "$GITHUB_WORKSPACE"
 
