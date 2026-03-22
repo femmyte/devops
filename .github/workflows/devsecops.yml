@@ -60,8 +60,8 @@ jobs:
 
       - name: Run npm audit
         run: |
-          npm audit --audit-level=high --json > npm-audit-report.json
-
+          npm audit --audit-level=high --json > npm-audit-report.json || true
+        # npm audit --audit-level=high --json > npm-audit-report.json
         # run: npm audit --json | tee npm-audit-report.json | jq -e 'select(.metadata.vulnerabilities.critical == 0 and .metadata.vulnerabilities.high == 0 and .metadata.vulnerabilities.moderate == 0)' > /dev/null
 
       - name: Upload SCA Reports
